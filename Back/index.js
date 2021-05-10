@@ -15,6 +15,7 @@ router.get('/test/:id', function (req, res, next) {
 });
 
 router.get('/GenererFichier', function(req, res){
+  console.log(req.query);
   //Récupération des parametre de la quete /
   //Generation des fichier JSON
   let dataFrom = req.query;
@@ -108,5 +109,12 @@ Exemple, récupération du Epoch et batch_size
   //   });
    });
 
+});
+
+router.get('/CreateLayer', function(req, res){
+// Parse certains attributs pour ne pas avoir des \"" dans le fichier JSON
+req.query.config = JSON.parse(req.query.config);
+req.query.training_config = JSON.parse(req.query.training_config);
+fs.writeFileSync('tmp/test_model.json',JSON.stringify(req.query,null,2)); //Enregistrement des parameters dans un fichier JSON.
 });
 module.exports = router;
